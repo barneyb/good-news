@@ -18,7 +18,7 @@ fi
 # send it to the web hook
 HOOK=`head -n 1 $F_HOOK`
 echo -n "[`date`] $ITEM " >> $F_LOG
-curl -s -S -X POST -H 'Content-type: application/json' --data '{"text":"'$ITEM'"}' $HOOK >> $F_LOG
+curl -s -S -X POST -H 'Content-type: application/json' --data '{"text":"<'$ITEM'>","unfurl_links":true,"unfurl_media":true}' $HOOK >> $F_LOG
 echo >> $F_LOG # curl doesn't add a newline for body-less 200
 
 # record it in the archive
