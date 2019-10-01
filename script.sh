@@ -7,6 +7,8 @@ F_ARCHIVE=archive.txt
 F_TEMP=temp.txt
 F_LOG=log.txt
 
+cd `dirname $0`
+
 ITEM=`head -n 1 $F_FEED`
 if [ "$ITEM" = "" ]; then
 	echo "No items in feed"
