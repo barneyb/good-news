@@ -27,3 +27,13 @@ echo $ITEM >> $F_ARCHIVE
 # remove it from the feed
 tail -n +2 $F_FEED > $F_TEMP
 mv $F_TEMP $F_FEED
+
+# see if the feed is low
+N=`cat $F_FEED | wc -l`
+if [ "$N" -lt 5 ]; then
+	date
+	echo
+	echo "Items in Good News feed: $N"
+	echo
+	echo "Need to go find some more, yo."
+fi
