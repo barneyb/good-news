@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+cd `dirname $0`
 
 F_HOOK=hook_url.txt
 F_FEED=feed.txt
@@ -10,8 +11,6 @@ F_IMAGES=images.txt
 
 HOOK=`head -n 1 $F_HOOK`
 
-cd `dirname $0`
-
 if [ "$1" = "--feed" ]; then
 	ITEM=`head -n 1 $F_FEED`
 	if [ "$ITEM" = "" ]; then
@@ -20,7 +19,7 @@ if [ "$1" = "--feed" ]; then
 	fi
 	
 	# send it to the web hook
-	echo -n "[`date`] $ITEM " >> $F_LOG
+	echo -n "[`date`] F $ITEM " >> $F_LOG
 	curl -s -S -X POST -H 'Content-type: application/json' --data '{"text":"<'$ITEM'>","unfurl_links":true,"unfurl_media":true}' $HOOK >> $F_LOG
 	echo >> $F_LOG # curl doesn't add a newline for body-less 200
 	
@@ -50,7 +49,7 @@ elif [ "$1" = "--image" ]; then
 	ITEM=`head -n $I $F_IMAGES | tail -n 1`
 	
 	# send it to the web hook
-	echo -n "[`date`] $ITEM " >> $F_LOG
+	echo -n "[`date`] I $ITEM " >> $F_LOG
 	curl -s -S -X POST -H 'Content-type: application/json' --data '{"blocks":[{"type":"image","title":{"type":"plain_text","text":"image1"},"image_url":"'$ITEM'","alt_text":"image1"}]}' $HOOK >> $F_LOG
 	echo >> $F_LOG # curl doesn't add a newline for body-less 200
 
