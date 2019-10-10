@@ -9,7 +9,15 @@ F_TEMP=temp.txt
 F_LOG=log.txt
 F_IMAGES=images.txt
 
-HOOK=`head -n 1 $F_HOOK`
+CHANNEL="$2"
+if [ "$CHANNEL" = "" ]; then
+	CHANNEL="#brennas-news-feed"
+fi
+HOOK=`grep $CHANNEL $F_HOOK | cut -d ' ' -f 2`
+if [ "$HOOK" = "" ]; then
+	echo "Invalid channel spec: '$CHANNEL'"
+	exit 2
+fi
 
 if [ "$1" = "--feed" ]; then
 	ITEM=`head -n 1 $F_FEED`
