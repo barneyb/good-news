@@ -4,7 +4,6 @@ cd `dirname $0`
 
 F_HOOK=hook_url.txt
 F_FEED=feed.txt
-F_ARCHIVE=archive.txt
 F_TEMP=temp.txt
 F_LOG=log.txt
 F_IMAGES=images.txt
@@ -30,9 +29,6 @@ if [ "$1" = "--feed" ]; then
 	echo -n "[`date`] F $ITEM " >> $F_LOG
 	curl -s -S -X POST -H 'Content-type: application/json' --data '{"text":"<'$ITEM'>","unfurl_links":true,"unfurl_media":true}' $HOOK >> $F_LOG
 	echo >> $F_LOG # curl doesn't add a newline for body-less 200
-	
-	# record it in the archive
-	echo $ITEM >> $F_ARCHIVE
 	
 	# remove it from the feed
 	tail -n +2 $F_FEED > $F_TEMP
