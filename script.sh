@@ -50,7 +50,7 @@ elif [ "$1" = "--image" ]; then
 	
 	# send it to the web hook
 	echo -n "[`date`] I $ITEM " >> $F_LOG
-	curl -s -S -X POST -H 'Content-type: application/json' --data '{"blocks":[{"type":"image","title":{"type":"plain_text","text":"image1"},"image_url":"'$ITEM'","alt_text":"image1"}]}' $HOOK >> $F_LOG
+	curl -s -S -X POST -H 'Content-type: application/json' --data '{"blocks":[{"type":"image","title":{"type":"plain_text","text":"image'$I'"},"image_url":"'$ITEM'","alt_text":"image'$I'"}]}' $HOOK >> $F_LOG
 	echo >> $F_LOG # curl doesn't add a newline for body-less 200
 
 	# remove it from the queue
