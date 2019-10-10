@@ -1,11 +1,6 @@
-hook_urls.txt
+/hook_urls.txt
+/log.txt
+/temp.txt
 
-feed.txt
-
-images.txt
-funny.txt
-
-log.txt
-temp.txt
-
+/queue/*
 *~
