@@ -2,7 +2,7 @@
 set -e
 cd `dirname $0`
 
-F_HOOK=hook_url.txt
+F_HOOK=hook_urls.txt
 F_TEMP=temp.txt
 F_LOG=log.txt
 
