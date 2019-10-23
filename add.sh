@@ -15,7 +15,7 @@ for fn in `ls *.txt`; do
 done
 
 q="glerg"
-until [ "$q" -gt 1 -a "$q" -lt $i ] 2>/dev/null; do
+until [ "$q" -ge 1 -a "$q" -le $i ] 2>/dev/null; do
   echo -n "Queue (1-$i, 'q' to quit): "
   read q
   if [ "$q" = "q" ]; then
