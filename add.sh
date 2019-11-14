@@ -27,6 +27,7 @@ echo
 echo "Adding to '${QUEUES[$q]}'; hit Ctrl-D when done..."
 cp ${QUEUES[$q]} ${QUEUES[$q]}.bak
 cat >> ${QUEUES[$q]}
+sort -u -o ${QUEUES[$q]} ${QUEUES[$q]}
 echo Done!
 wc -l *.txt
 
