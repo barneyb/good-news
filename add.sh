@@ -29,5 +29,3 @@ cp ${QUEUES[$q]} ${QUEUES[$q]}.bak
 cat >> ${QUEUES[$q]}
 sort -u -o ${QUEUES[$q]} ${QUEUES[$q]}
 echo Done!
-wc -l *.txt
-
