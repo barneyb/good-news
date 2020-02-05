@@ -10,6 +10,14 @@ function usage() {
 	echo "Usage: `basename $0` <channel> ( --link | --image ) <queue_file>"
 }
 
+function remove_line() {
+	file=$1
+	i=$2
+	head -n $((i - 1)) $file > $F_TEMP
+	tail -n +$((i + 1)) $file >> $F_TEMP
+	mv $F_TEMP $file
+}
+
 CHANNEL="$1"
 if [ "$CHANNEL" = "" ]; then
 	CHANNEL="#brennas-news-feed"
@@ -37,18 +45,25 @@ if [ "$FILE" = "" -o ! -f $FILE ]; then
 	exit 2
 fi
 
-N=`cat $FILE | wc -l`
-if [ "$N" -eq 0 ]; then
-    echo "The '$FILE' queue is empty..."
-    exit 1
-fi
+while true; do
+	N=`cat $FILE | wc -l`
+	if [ "$N" -eq 0 ]; then
+	    echo "The '$FILE' queue is empty..."
+	    exit 1
+	fi
 
-I=$((RANDOM % N + 1))
-ITEM=`head -n $I $FILE | tail -n 1`
-if [ "$ITEM" = "" ]; then
-	echo "No items in feed"
-	exit 1
-fi
+	I=$((RANDOM % N + 1))
+	ITEM=`head -n $I $FILE | tail -n 1`
+	if [ "$ITEM" = "" ]; then
+		echo "No items in feed"
+		exit 1
+	fi
+	if curl --silent --head --location --output /dev/null --write-out '%{http_code}' $ITEM | grep '^2' > /dev/null; then
+		break
+	fi
+	echo "[`date`] $CHANNEL $CMD $ITEM reject" >> $F_LOG
+	remove_line $FILE $I
+done
 
 echo -n "[`date`] $CHANNEL $CMD $ITEM " >> $F_LOG
 if [ "$CMD" = "link" ]; then
@@ -61,9 +76,7 @@ else
 fi
 echo >> $F_LOG # curl doesn't add a newline for body-less 200
 
-head -n $((I - 1)) $FILE > $F_TEMP
-tail -n +$((I + 1)) $FILE >> $F_TEMP
-mv $F_TEMP $FILE
+remove_line $FILE $I
 
 # see if the feed is low
 if [ "$N" -lt 5 ]; then
