@@ -48,14 +48,13 @@ fi
 while true; do
 	N=`cat $FILE | wc -l`
 	if [ "$N" -eq 0 ]; then
-	    echo "The '$FILE' queue is empty..."
 	    exit 1
 	fi
 
 	I=$((RANDOM % N + 1))
 	ITEM=`head -n $I $FILE | tail -n 1`
 	if [ "$ITEM" = "" ]; then
-		echo "No items in feed"
+		echo "No items in feed?"
 		exit 1
 	fi
 	if curl --silent --head --location --output /dev/null --write-out '%{http_code}' $ITEM | grep '^2' > /dev/null; then
