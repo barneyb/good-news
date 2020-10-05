@@ -77,11 +77,11 @@ echo >> $F_LOG # curl doesn't add a newline for body-less 200
 
 remove_line $FILE $I
 
-# see if the feed is low
-if [ "$N" -lt 5 ]; then
-	date
-	echo
-	echo "Items in '$FILE' feed: $N"
-	echo
-	echo "Need to go find some more, yo."
-fi
+## see if the feed is low
+#if [ "$N" -lt 5 ]; then
+#	date
+#	echo
+#	echo "Items in '$FILE' feed: $N"
+#	echo
+#	echo "Need to go find some more, yo."
+#fi
