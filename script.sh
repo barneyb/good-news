@@ -15,6 +15,8 @@ function remove_line() {
 	i=$2
 	head -n $((i - 1)) $file > $F_TEMP
 	tail -n +$((i + 1)) $file >> $F_TEMP
+	chgrp --reference $file $F_TEMP
+	chmod --reference $file $F_TEMP
 	mv $F_TEMP $file
 }
 
